@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>植物养护指南</title>
+<title>Plant Care Guide</title>
 <style>
 /* SECTION: reset */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--c1:#1b4332;--c2:#2d6a4f;--c3:#40916c;--c4:#52b788;--c5:#74c69d;--c6:#95d5b2;--bg:#f0f4f0;--card:#ffffff;--text:#1a1a2e;--text2:#555;--text3:#888;--shadow:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);--shadow-h:0 4px 12px rgba(0,0,0,.08),0 12px 32px rgba(0,0,0,.08);--r:14px;--tr:.25s cubic-bezier(.4,0,.2,1)}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
 
 /* SECTION: header */
 .site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(45,106,79,.08)}
@@ -108,10 +108,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
   <div class="header-inner">
     <a href="#" class="logo" onclick="showGallery();return false">
       <span class="logo-icon">🌿</span>
-      <span>植物养护指南</span>
+      <span>Plant Care Guide</span>
     </a>
     <div class="search-wrap">
-      <input type="text" id="searchInput" placeholder="输入编号或名称搜索…" autocomplete="off" oninput="filterPlants()">
+      <input type="text" id="searchInput" placeholder="Search by ID or name…" autocomplete="off" oninput="filterPlants()">
       <span class="s-icon">🔍</span>
     </div>
     <div class="plant-count" id="plantCount"></div>
@@ -120,8 +120,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 
 <!-- SECTION: hero -->
 <div class="hero" id="heroSection">
-  <h1>植物养护指南</h1>
-  <p>在运货标签上找到 3 位植物编号，输入即可查询养护方法。例如标签写着 <strong>022 × 1</strong>，请输入 <strong>022</strong></p>
+  <h1>Plant Care Guide</h1>
+  <p>Find the 3-digit plant ID on the shipping label and enter it to look up care instructions. For example, if the label reads <strong>022 × 1</strong>, enter <strong>022</strong></p>
 </div>
 
 <!-- SECTION: gallery -->
@@ -129,7 +129,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
   <div class="grid" id="plantGrid"></div>
   <div class="no-results" id="noResults" style="display:none">
     <div class="emoji">🌱</div>
-    <p>没有找到匹配的植物，试试其他关键词</p>
+    <p>No matching plants found. Try a different keyword.</p>
   </div>
 </div>
 
@@ -139,84 +139,84 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 </div>
 
 <!-- SECTION: footer -->
-<footer class="site-footer">© 2026 植物养护指南 · Plant Care Guide</footer>
+<footer class="site-footer">© 2026 Plant Care Guide</footer>
 
 <script>
 /* SECTION: plant data */
 const plants=[
-{id:201,cn:"白掌",la:"Spathiphyllum",light:"明亮散射光，避免直射阳光",water:"保持土壤微湿，每周浇1-2次，冬季减少",temp:"18-28°C，低于10°C需保暖",fert:"生长期每月施一次稀薄液肥",tips:["叶片发黄多为浇水过多或光照过强","定期擦拭叶片保持光泽","花期可持续数月，是优秀的室内观花植物"]},
-{id:202,cn:"绿萝",la:"Epipremnum aureum",light:"耐阴，散射光即可",water:"土表干透再浇透，冬季减少浇水频率",temp:"15-30°C，不耐寒",fert:"每月施一次通用液肥",tips:["可以水培也可以土培","黄叶及时剪除，促进新叶生长","适合放在办公桌或书架上"]},
-{id:203,cn:"龟背竹",la:"Monstera deliciosa",light:"明亮散射光，忌暴晒",water:"每周浇水1次，保持微湿不积水",temp:"18-30°C，冬季不低于10°C",fert:"春夏每月施一次观叶植物肥",tips:["叶片开裂是成熟标志","可用气生根引导攀爬","定期转盆保持株型均匀"]},
-{id:204,cn:"虎皮兰",la:"Sansevieria",light:"适应性强，全日照到半阴均可",water:"极耐旱，2-3周浇一次即可",temp:"15-35°C，低于10°C停止浇水",fert:"每季度施一次稀薄肥",tips:["优秀的空气净化植物","浇水过多易烂根，宁干勿湿","可放在卧室，夜间释放氧气"]},
-{id:205,cn:"吊兰",la:"Chlorophytum comosum",light:"散射光，耐半阴",water:"保持土壤湿润，夏季注意补水",temp:"15-25°C，不耐寒",fert:"每月施一次稀薄液肥",tips:["可长出匍匐茎悬垂生长","能吸收甲醛等有害气体","适合悬挂种植或放高架"]},
-{id:206,cn:"芦荟",la:"Aloe vera",light:"充足光照，夏季适当遮阴",water:"耐旱，半月浇一次，忌积水",temp:"15-35°C，不耐霜冻",fert:"春夏每月施一次多肉专用肥",tips:["叶片汁液可用于轻微烫伤护理","盆土必须排水良好","老叶外层干瘪属正常现象"]},
-{id:207,cn:"仙人掌",la:"Cactaceae",light:"全日照，越晒越好",water:"极少浇水，月浇1-2次，冬季断水",temp:"10-40°C，耐旱不耐寒",fert:"生长期每月施一次仙人掌专用肥",tips:["盆土用颗粒土保证排水","刺座处容易积灰，可用软刷清理","开花需要充足光照和适当温差"]},
-{id:208,cn:"多肉拼盘",la:"Succulent Mix",light:"充足光照，每天4小时以上",water:"干透浇透，夏季控水防黑腐",temp:"5-35°C，冬季需保暖",fert:"春秋生长季每月施一次稀薄多肉肥",tips:["不同品种浇水需求可能不同","夏季注意通风，防止闷热潮湿","发现徒长说明光照不足"]},
-{id:209,cn:"铜钱草",la:"Pilea peperomioides",light:"明亮散射光，避免暴晒",water:"喜湿，保持土壤湿润，可半水培",temp:"15-30°C，不耐寒",fert:"每周施一次稀薄液肥",tips:["叶片趋光性强，定期转盆","可以分株繁殖","寓意财源广进"]},
-{id:210,cn:"琴叶榕",la:"Ficus lyrata",light:"明亮光照，每天4-6小时",water:"表土干后浇透，忌积水",temp:"18-30°C，怕冷风吹",fert:"春夏每两周施一次观叶肥",tips:["叶片大易积灰，定期擦拭","忌频繁移动位置","落叶多为浇水不当或环境突变"]},
-{id:211,cn:"散尾葵",la:"Dypsis lutescens",light:"明亮散射光",water:"保持土壤湿润，经常向叶面喷水",temp:"20-30°C，不耐寒",fert:"每月施一次棕榈专用肥",tips:["优秀的室内加湿植物","叶尖干枯多为空气太干燥","需要较大的生长空间"]},
-{id:212,cn:"橡皮树",la:"Ficus elastica",light:"明亮光照，耐半阴",water:"土表干透再浇水",temp:"15-35°C，不耐寒",fert:"每月施一次通用液肥",tips:["叶片厚实有光泽，定期擦拭","可修剪控制高度","汁液有轻微刺激性，操作时戴手套"]},
-{id:213,cn:"富贵竹",la:"Dracaena sanderiana",light:"散射光，忌直射",water:"水培每周换水，土培保持湿润",temp:"18-30°C，低于10°C易冻伤",fert:"水培每月加几滴营养液",tips:["水培可用矿泉水或晾过的自来水","黄叶多为水质或光照问题","寓意步步高升"]},
-{id:214,cn:"文竹",la:"Asparagus setaceus",light:"散射光，忌暴晒",water:"喜湿润，经常喷水增湿",temp:"15-25°C，不耐寒",fert:"每月施一次稀薄液肥",tips:["枝叶细密如云片，极具文人气质","忌烟尘和空气干燥","适合书房或客厅摆放"]},
-{id:215,cn:"铁线蕨",la:"Adiantum",light:"散射光或半阴环境",water:"保持土壤始终湿润，每天喷水",temp:"15-25°C，怕热怕冷",fert:"每月施一次蕨类专用肥",tips:["对空气湿度要求高","浴室或厨房窗台是理想位置","叶片发黄可齐根剪除促新叶"]},
-{id:216,cn:"波士顿蕨",la:"Nephrolepis exaltata",light:"散射光，忌直射阳光",water:"保持土壤湿润，经常喷雾",temp:"16-26°C",fert:"每月施一次稀薄液肥",tips:["天然的空气加湿器","适合悬挂种植","枯叶及时清除保持通风"]},
-{id:217,cn:"袖珍椰子",la:"Chamaedorea elegans",light:"耐阴，散射光即可",water:"保持土壤微湿",temp:"18-28°C，不耐寒",fert:"春夏每月施一次棕榈肥",tips:["适合桌面摆放的迷你椰子","忌强光直射","生长缓慢但寿命长"]},
-{id:218,cn:"常春藤",la:"Hedera helix",light:"散射光，耐阴",water:"土表干后浇水，忌积水",temp:"10-25°C，较耐寒",fert:"每月施一次通用液肥",tips:["可攀爬也可垂吊生长","优秀的空气净化植物","可修剪造型"]},
-{id:219,cn:"豆瓣绿",la:"Peperomia obtusifolia",light:"散射光，耐半阴",water:"干透浇透，忌积水",temp:"15-30°C",fert:"春夏每月施一次稀薄肥",tips:["叶片肥厚有蜡质感","适合新手养护","可扦插繁殖"]},
-{id:220,cn:"红掌",la:"Anthurium andraeanum",light:"明亮散射光",water:"保持土壤湿润但不积水",temp:"20-30°C，不耐寒",fert:"每两周施一次花卉专用肥",tips:["花期全年可达","佛焰苞不是真正的花","叶片和花苞可擦拭保持光泽"]},
-{id:221,cn:"蝴蝶兰",la:"Phalaenopsis",light:"明亮散射光，忌直射",water:"水苔干透再浇透，约7-10天",temp:"18-28°C，需温差催花",fert:"每月施一次兰花专用肥",tips:["花期可达2-3个月","花梗花后可剪至第二节促复花","忌积水烂根"]},
-{id:222,cn:"长寿花",la:"Kalanchoe blossfeldiana",light:"充足光照",water:"干透浇透，忌叶面喷水",temp:"15-25°C",fert:"花期前每月施磷钾肥",tips:["短日照植物，秋冬开花","花期长达1-2个月","花后修剪促分枝"]},
-{id:223,cn:"蟹爪兰",la:"Schlumbergera",light:"散射光，忌暴晒",water:"保持微湿，忌积水",temp:"15-25°C，花期需低温催花",fert:"生长期每月施一次稀薄肥",tips:["秋冬开花，花色丰富","花苞期忌移动位置","夏季休眠减少浇水"]},
-{id:224,cn:"君子兰",la:"Clivia miniata",light:"散射光，忌暴晒",water:"见干见湿，忌积水",temp:"15-25°C，冬季需低温春化",fert:"每月施一次君子兰专用肥",tips:["叶片整齐对生是品质体现","每年春节前后开花","换盆宜在秋季"]},
-{id:225,cn:"朱顶红",la:"Hippeastrum",light:"充足光照",water:"生长期保持湿润，休眠期控水",temp:"18-28°C",fert:"生长期每两周施一次肥",tips:["种球1/3露出土面","花大色艳，春季盛花","花后继续养护球根"]},
-{id:226,cn:"风信子",la:"Hyacinthus orientalis",light:"充足光照",water:"保持土壤湿润",temp:"15-20°C，喜凉爽",fert:"生长期每月施一次磷钾肥",tips:["可土培也可水培","花香浓郁，不宜放在卧室","花后养球至叶枯"]},
-{id:227,cn:"水仙",la:"Narcissus tazetta",light:"充足光照",water:"水培勤换水，土培保持湿润",temp:"10-18°C，喜冷凉",fert:"水培可不施肥",tips:["中国传统年宵花","雕刻可控制花型","球根有毒，勿误食"]},
-{id:228,cn:"郁金香",la:"Tulipa",light:"全日照",water:"保持微湿，忌积水",temp:"15-20°C，喜冷凉",fert:"生长期每月施一次磷钾肥",tips:["种球需低温春化","春季盛花期","花后养球至叶枯黄"]},
-{id:229,cn:"百合",la:"Lilium",light:"充足光照",water:"保持土壤湿润",temp:"15-25°C",fert:"生长期每两周施一次肥",tips:["花香浓郁，适合客厅","花药及时摘除防染色","鳞茎可食用（部分品种）"]},
-{id:230,cn:"茉莉花",la:"Jasminum sambac",light:"全日照，越晒花越香",water:"喜湿，夏季需勤浇水",temp:"20-35°C，不耐寒",fert:"花期每周施一次磷钾肥",tips:["一年可开三茬花","花后可修剪促分枝","冬季落叶属正常休眠"]},
-{id:231,cn:"栀子花",la:"Gardenia jasminoides",light:"明亮光照，夏季遮阴",water:"喜酸性水，可用雨水浇灌",temp:"18-28°C，不耐寒",fert:"每月施一次酸性肥",tips:["忌碱性土和碱性水","花香清甜，初夏盛花","叶黄可补铁"]},
-{id:232,cn:"桂花",la:"Osmanthus fragrans",light:"全日照",water:"见干见湿",temp:"15-30°C，较耐寒",fert:"春季施氮肥，秋季施磷钾肥",tips:["秋季开花香飘数里","可做桂花蜜和桂花糕","北方需盆栽室内越冬"]},
-{id:233,cn:"三角梅",la:"Bougainvillea",light:"全日照，光照不足不开花",water:"适当控水促花",temp:"15-35°C",fert:"花期前施磷钾肥",tips:["看到的彩色部分是苞片不是花","控水可促花","北方需室内越冬"]},
-{id:234,cn:"月季",la:"Rosa chinensis",light:"全日照，每天6小时以上",water:"保持湿润，忌叶面喷水",temp:"15-30°C",fert:"每周施一次月季专用肥",tips:["花中皇后，四季可开花","注意防治白粉病和红蜘蛛","花后及时修剪"]},
-{id:235,cn:"绣球花",la:"Hydrangea macrophylla",light:"半阴环境，忌暴晒",water:"喜湿，夏季需勤浇水",temp:"15-25°C",fert:"酸性土蓝色花，碱性土粉色花",tips:["花色受土壤酸碱度影响","花期5-8月","冬季修剪"]},
-{id:236,cn:"薰衣草",la:"Lavandula",light:"全日照",water:"耐旱，忌积水",temp:"15-30°C",fert:"少施肥，贫瘠土壤春季施一次",tips:["芳香助眠，可做香包","忌潮湿闷热","花后可修剪整形"]},
-{id:237,cn:"迷迭香",la:"Rosmarinus officinalis",light:"全日照",water:"耐旱，忌积水",temp:"10-30°C",fert:"少施肥",tips:["烹饪常用香料","耐修剪，可造型","扦插繁殖容易"]},
-{id:238,cn:"薄荷",la:"Mentha",light:"半日照到全日照",water:"喜湿，保持土壤湿润",temp:"15-30°C，耐寒",fert:"每月施一次氮肥",tips:["生长极快，建议单独盆栽","可泡茶或做菜","定期打顶促分枝"]},
-{id:239,cn:"罗勒",la:"Ocimum basilicum",light:"全日照",water:"保持湿润，忌积水",temp:"20-30°C，不耐寒",fert:"每月施一次稀薄肥",tips:["意大利菜常用香料","打顶促分枝可多收","开花前采摘风味最佳"]},
-{id:240,cn:"碰碰香",la:"Plectranthus tomentosa",light:"明亮散射光",water:"见干见湿",temp:"15-30°C",fert:"每月施一次稀薄肥",tips:["触碰散发苹果香气","可做香囊","扦插繁殖容易"]},
-{id:241,cn:"含羞草",la:"Mimosa pudica",light:"充足光照",water:"保持湿润",temp:"20-30°C",fert:"每月施一次稀薄肥",tips:["触碰叶片会合拢","有趣互动植物","生长速度快"]},
-{id:243,cn:"猪笼草",la:"Nepenthes",light:"明亮散射光",water:"保持高湿度，用纯净水",temp:"20-30°C",fert:"不需施肥，自行捕虫",tips:["食虫植物，捕虫笼是变态叶","忌用自来水","基质保持湿润不积水"]},
-{id:244,cn:"捕蝇草",la:"Dionaea muscipula",light:"充足光照",water:"用纯净水或雨水，保持湿润",temp:"15-30°C，冬季需低温休眠",fert:"不需施肥",tips:["夹子可捕食小昆虫","忌频繁触发夹子","冬季休眠期正常"]},
-{id:245,cn:"空气凤梨",la:"Tillandsia",light:"明亮散射光",water:"每周泡水20-30分钟，沥干",temp:"15-30°C",fert:"每月喷一次凤梨专用肥",tips:["不需要土壤","可附着在各种支架上","叶面银白色鳞片用于吸收水分"]},
-{id:246,cn:"万年青",la:"Aglaonema",light:"耐阴，散射光即可",water:"见干见湿",temp:"18-30°C",fert:"每月施一次观叶肥",tips:["优秀的室内耐阴植物","品种花色丰富","汁液有轻微毒性"]},
-{id:247,cn:"合果芋",la:"Syngonium podophyllum",light:"散射光",water:"保持湿润",temp:"18-30°C",fert:"每月施一次液肥",tips:["叶色随品种变化","可水培或土培","攀附生长更有型"]},
-{id:248,cn:"彩叶芋",la:"Caladium",light:"散射光，忌暴晒",water:"喜湿润，经常喷水",temp:"20-30°C，不耐寒",fert:"每月施一次叶面肥",tips:["叶色绚丽如油画","冬季休眠叶片枯萎属正常","春季重新发芽"]},
-{id:249,cn:"竹芋",la:"Maranta leuconeura",light:"散射光，忌直射",water:"保持湿润，忌干燥",temp:"18-28°C",fert:"每月施一次稀薄肥",tips:["叶片夜间会竖立（睡眠运动）","对空气湿度要求高","叶面斑纹是观赏重点"]},
-{id:250,cn:"天堂鸟",la:"Strelitzia reginae",light:"充足光照",water:"见干见湿",temp:"18-30°C",fert:"每月施一次通用肥",tips:["花形如飞鸟","大型室内观叶植物","需较大生长空间"]},
-{id:401,cn:"发财树",la:"Pachira aquatica",light:"散射光，耐阴",water:"10-15天浇一次，忌积水",temp:"18-30°C",fert:"每月施一次观叶肥",tips:["编织树干是常见造型","浇水过多是最常见死因","寓意招财进宝"]},
-{id:402,cn:"幸福树",la:"Radermachera sinica",light:"明亮散射光",water:"见干见湿",temp:"18-30°C",fert:"每月施一次液肥",tips:["叶片繁密如绿伞","注意通风防落叶","寓意家庭幸福"]},
-{id:403,cn:"平安树",la:"Cinnamomum kotoense",light:"散射光",water:"保持微湿",temp:"18-30°C",fert:"每月施一次观叶肥",tips:["叶片有淡淡清香","大型室内绿植","忌强光直射"]},
-{id:404,cn:"鸭脚木",la:"Schefflera arboricola",light:"散射光，耐阴",water:"见干见湿",temp:"15-30°C",fert:"每月施一次液肥",tips:["又名鹅掌柴，叶片如鸭掌","优秀的空气净化植物","可修剪造型"]},
-{id:405,cn:"龙血树",la:"Dracaena marginata",light:"散射光",water:"耐旱，2周浇一次",temp:"18-30°C",fert:"每月施一次稀薄肥",tips:["树干细长有型","叶片窄长如剑","非常耐养"]},
-{id:406,cn:"千年木",la:"Dracaena reflexa",light:"明亮散射光",water:"见干见湿",temp:"18-30°C",fert:"每月施一次液肥",tips:["叶色艳丽有彩边","生长缓慢寿命长","适合客厅装饰"]},
-{id:407,cn:"巴西木",la:"Dracaena fragrans",light:"散射光",water:"保持微湿",temp:"18-30°C",fert:"每月施一次观叶肥",tips:["又名香龙血树","水培木桩也能发芽","叶片宽大翠绿"]},
-{id:408,cn:"苏铁",la:"Cycas revoluta",light:"充足光照",water:"耐旱，忌积水",temp:"10-35°C",fert:"春夏每月施一次铁肥",tips:["又名铁树，生长极慢","叶片坚硬如针","缺铁时叶片发黄"]},
-{id:409,cn:"南洋杉",la:"Araucaria heterophylla",light:"明亮散射光",water:"保持湿润",temp:"15-25°C",fert:"每月施一次针叶树专用肥",tips:["树形优美如圣诞树","适合大型空间","忌干燥环境"]},
-{id:410,cn:"罗汉松",la:"Podocarpus macrophyllus",light:"全日照到半阴",water:"见干见湿",temp:"10-30°C，较耐寒",fert:"春夏每月施一次肥",tips:["传统盆景树种","寓意长寿吉祥","耐修剪可造型"]},
-{id:411,cn:"六月雪",la:"Serissa japonica",light:"充足光照",water:"保持湿润",temp:"15-28°C",fert:"每月施一次稀薄肥",tips:["夏季开白花如雪","传统盆景材料","忌积水"]},
-{id:412,cn:"榕树盆景",la:"Ficus microcarpa",light:"充足光照",water:"保持湿润，经常喷水",temp:"18-30°C，不耐寒",fert:"每月施一次液肥",tips:["气根可形成独木成林景观","耐修剪","忌强光暴晒和冷风"]},
-{id:413,cn:"榆树盆景",la:"Ulmus parvifolia",light:"充足光照",water:"见干见湿",temp:"10-30°C",fert:"春夏每月施一次肥",tips:["落叶树种，秋冬落叶属正常","树皮斑驳有韵味","适合新手盆景"]},
-{id:414,cn:"黄杨盆景",la:"Buxus sinica",light:"散射光",water:"保持湿润",temp:"10-30°C",fert:"每月施一次稀薄肥",tips:["常绿灌木，叶片小巧","耐修剪","生长缓慢"]},
-{id:415,cn:"枸杞盆景",la:"Lycium chinense",light:"全日照",water:"见干见湿",temp:"-10~35°C，极耐寒",fert:"春夏每月施一次肥",tips:["可观果也可观叶","果实可食用","耐贫瘠"]},
-{id:416,cn:"金枝玉叶",la:"Portulacaria afra",light:"充足光照",water:"耐旱，干透浇透",temp:"10-35°C",fert:"每月施一次多肉肥",tips:["又名树马齿苋","叶片小巧翠绿","适合做微型盆景"]},
-{id:417,cn:"玉树",la:"Crassula ovata",light:"充足光照",water:"耐旱，2-3周浇一次",temp:"10-30°C",fert:"春夏每月施一次肥",tips:["又名燕子掌","叶片圆润如玉","养护多年可开花"]},
-{id:418,cn:"石莲花",la:"Echeveria",light:"充足光照",water:"干透浇透，忌叶心积水",temp:"5-35°C",fert:"春秋每月施一次多肉肥",tips:["莲座状排列极具美感","叶插繁殖容易","夏季注意通风"]},
-{id:419,cn:"黑法师",la:"Aeonium arboreum",light:"充足光照，夏季遮阴",water:"夏季休眠控水，春秋正常浇水",temp:"10-30°C",fert:"生长期每月施一次稀薄肥",tips:["黑色莲座极具个性","夏季休眠叶片包拢","春秋生长迅速"]},
-{id:420,cn:"虹之玉",la:"Sedum rubrotinctum",light:"充足光照，光照好叶色红",water:"干透浇透",temp:"5-35°C",fert:"少施肥，春秋各一次",tips:["叶色随光照和温差变红","掉叶可扦插","果冻色最美"]},
-{id:421,cn:"熊童子",la:"Cotyledon tomentosa",light:"充足散射光",water:"干透浇透，忌叶面沾水",temp:"5-30°C",fert:"春秋每月施一次多肉肥",tips:["叶片毛茸茸如小熊掌","叶面绒毛忌沾水","夏季休眠需控水"]},
-{id:601,cn:"生石花",la:"Lithops",light:"充足光照",water:"极少浇水，蜕皮期断水",temp:"10-35°C",fert:"极少施肥",tips:["又名屁股花，拟态石头","一年只长1-2对新叶","蜕皮期不要浇水"]},
-{id:602,cn:"玉露",la:"Haworthia cooperi",light:"散射光，忌暴晒",water:"干透浇透，夏季控水",temp:"10-30°C",fert:"春秋每月施一次稀薄肥",tips:["叶片晶莹剔透如窗面","夏季休眠需遮阳通风","闷养可让窗面更透"]},
-{id:603,cn:"十二卷",la:"Haworthia fasciata",light:"散射光",water:"干透浇透",temp:"10-30°C",fert:"生长期每月施一次稀薄肥",tips:["白色条纹如斑马","生长缓慢","适合小盆种植"]}
+{id:201,cn:"Peace Lily",la:"Spathiphyllum",light:"Bright indirect light, avoid direct sunlight",water:"Keep soil slightly moist, water 1-2 times per week, reduce in winter",temp:"18-28°C, protect below 10°C",fert:"Apply diluted liquid fertilizer monthly during growing season",tips:["Yellow leaves often indicate overwatering or too much light","Wipe leaves regularly to maintain shine","Flowers can last for months, excellent indoor flowering plant"]},
+{id:202,cn:"Golden Pothos",la:"Epipremnum aureum",light:"Tolerates low light, indirect light preferred",water:"Water thoroughly when topsoil is dry, reduce frequency in winter",temp:"15-30°C, not cold-hardy",fert:"Apply general liquid fertilizer monthly",tips:["Can be grown in water or soil","Remove yellow leaves promptly to encourage new growth","Great for desks or bookshelves"]},
+{id:203,cn:"Swiss Cheese Plant",la:"Monstera deliciosa",light:"Bright indirect light, avoid full sun",water:"Water once a week, keep slightly moist without waterlogging",temp:"18-30°C, keep above 10°C in winter",fert:"Apply foliage plant fertilizer monthly in spring and summer",tips:["Leaf splits are a sign of maturity","Use aerial roots to guide climbing","Rotate pot regularly for even growth"]},
+{id:204,cn:"Snake Plant",la:"Sansevieria",light:"Highly adaptable, full sun to partial shade",water:"Very drought-tolerant, water every 2-3 weeks",temp:"15-35°C, stop watering below 10°C",fert:"Apply diluted fertilizer quarterly",tips:["Excellent air-purifying plant","Overwatering causes root rot — when in doubt, don't water","Great for bedrooms, releases oxygen at night"]},
+{id:205,cn:"Spider Plant",la:"Chlorophytum comosum",light:"Indirect light, tolerates partial shade",water:"Keep soil moist, increase watering in summer",temp:"15-25°C, not cold-hardy",fert:"Apply diluted liquid fertilizer monthly",tips:["Produces trailing stems with baby plants","Absorbs formaldehyde and other harmful gases","Ideal for hanging planters or high shelves"]},
+{id:206,cn:"Aloe Vera",la:"Aloe vera",light:"Plenty of light, partial shade in summer",water:"Drought-tolerant, water every two weeks, avoid waterlogging",temp:"15-35°C, not frost-hardy",fert:"Apply succulent fertilizer monthly in spring and summer",tips:["Leaf gel can soothe minor burns","Potting mix must drain well","Outer leaves drying and shriveling is normal"]},
+{id:207,cn:"Cactus",la:"Cactaceae",light:"Full sun, the more the better",water:"Water sparingly, 1-2 times a month, stop watering in winter",temp:"10-40°C, drought-tolerant but not cold-hardy",fert:"Apply cactus fertilizer monthly during growing season",tips:["Use gritty soil for drainage","Clean dust from spines with a soft brush","Flowering requires ample light and temperature variation"]},
+{id:208,cn:"Succulent Mix",la:"Succulent Mix",light:"Plenty of light, at least 4 hours daily",water:"Water when fully dry, reduce in summer to prevent rot",temp:"5-35°C, protect from cold in winter",fert:"Apply diluted succulent fertilizer monthly in spring and autumn",tips:["Different varieties may have different watering needs","Ensure good ventilation in summer to prevent humidity buildup","Stretching indicates insufficient light"]},
+{id:209,cn:"Chinese Money Plant",la:"Pilea peperomioides",light:"Bright indirect light, avoid direct sun",water:"Likes moisture, keep soil moist, can be semi-hydroponic",temp:"15-30°C, not cold-hardy",fert:"Apply diluted liquid fertilizer weekly",tips:["Leaves are strongly phototropic — rotate pot regularly","Easy to propagate by division","Symbolizes prosperity and good fortune"]},
+{id:210,cn:"Fiddle Leaf Fig",la:"Ficus lyrata",light:"Bright light, 4-6 hours daily",water:"Water thoroughly when topsoil is dry, avoid waterlogging",temp:"18-30°C, avoid cold drafts",fert:"Apply foliage fertilizer every two weeks in spring and summer",tips:["Large leaves collect dust — wipe regularly","Avoid frequently moving the plant","Leaf drop often caused by improper watering or sudden changes"]},
+{id:211,cn:"Areca Palm",la:"Dypsis lutescens",light:"Bright indirect light",water:"Keep soil moist, mist leaves frequently",temp:"20-30°C, not cold-hardy",fert:"Apply palm fertilizer monthly",tips:["Excellent natural humidifier","Brown leaf tips indicate dry air","Needs generous growing space"]},
+{id:212,cn:"Rubber Plant",la:"Ficus elastica",light:"Bright light, tolerates partial shade",water:"Water when topsoil is fully dry",temp:"15-35°C, not cold-hardy",fert:"Apply general liquid fertilizer monthly",tips:["Thick glossy leaves — wipe regularly","Can be pruned to control height","Sap is mildly irritating — wear gloves when pruning"]},
+{id:213,cn:"Lucky Bamboo",la:"Dracaena sanderiana",light:"Indirect light, avoid direct sun",water:"Change water weekly if hydroponic; keep soil moist if potted",temp:"18-30°C, frost-susceptible below 10°C",fert:"Add a few drops of nutrient solution monthly for hydroponic",tips:["Use bottled or dechlorinated tap water for hydroponic","Yellow leaves usually indicate water quality or light issues","Symbolizes good fortune and upward progress"]},
+{id:214,cn:"Asparagus Fern",la:"Asparagus setaceus",light:"Indirect light, avoid full sun",water:"Likes moisture, mist frequently to increase humidity",temp:"15-25°C, not cold-hardy",fert:"Apply diluted liquid fertilizer monthly",tips:["Delicate feathery foliage with an elegant look","Avoid smoke and dry air","Ideal for studies or living rooms"]},
+{id:215,cn:"Maidenhair Fern",la:"Adiantum",light:"Indirect light or partial shade",water:"Keep soil consistently moist, mist daily",temp:"15-25°C, sensitive to heat and cold",fert:"Apply fern-specific fertilizer monthly",tips:["Requires high humidity","Bathroom or kitchen windowsills are ideal","Yellow fronds can be cut to the base to encourage new growth"]},
+{id:216,cn:"Boston Fern",la:"Nephrolepis exaltata",light:"Indirect light, avoid direct sun",water:"Keep soil moist, mist frequently",temp:"16-26°C",fert:"Apply diluted liquid fertilizer monthly",tips:["Natural air humidifier","Great for hanging baskets","Remove dead fronds to maintain air circulation"]},
+{id:217,cn:"Parlor Palm",la:"Chamaedorea elegans",light:"Tolerates shade, indirect light sufficient",water:"Keep soil slightly moist",temp:"18-28°C, not cold-hardy",fert:"Apply palm fertilizer monthly in spring and summer",tips:["Perfect desktop-sized mini palm","Avoid strong direct sunlight","Slow-growing but long-lived"]},
+{id:218,cn:"English Ivy",la:"Hedera helix",light:"Indirect light, shade-tolerant",water:"Water when topsoil is dry, avoid waterlogging",temp:"10-25°C, fairly cold-hardy",fert:"Apply general liquid fertilizer monthly",tips:["Can climb or trail","Excellent air-purifying plant","Can be pruned into shapes"]},
+{id:219,cn:"Baby Rubber Plant",la:"Peperomia obtusifolia",light:"Indirect light, tolerates partial shade",water:"Water when fully dry, avoid waterlogging",temp:"15-30°C",fert:"Apply diluted fertilizer monthly in spring and summer",tips:["Thick waxy leaves","Great for beginners","Easy to propagate from cuttings"]},
+{id:220,cn:"Anthurium",la:"Anthurium andraeanum",light:"Bright indirect light",water:"Keep soil moist but not waterlogged",temp:"20-30°C, not cold-hardy",fert:"Apply flowering plant fertilizer every two weeks",tips:["Can bloom year-round","The colorful spathe is not the actual flower","Wipe leaves and spathes to maintain gloss"]},
+{id:221,cn:"Moth Orchid",la:"Phalaenopsis",light:"Bright indirect light, avoid direct sun",water:"Water thoroughly when sphagnum moss is dry, roughly every 7-10 days",temp:"18-28°C, needs temperature drop to trigger blooming",fert:"Apply orchid fertilizer monthly",tips:["Blooms can last 2-3 months","After flowering, cut spike above second node to encourage reblooming","Avoid waterlogging to prevent root rot"]},
+{id:222,cn:"Flaming Katy",la:"Kalanchoe blossfeldiana",light:"Plenty of light",water:"Water when fully dry, avoid misting leaves",temp:"15-25°C",fert:"Apply phosphorus-potassium fertilizer monthly before blooming",tips:["Short-day plant, blooms in autumn and winter","Flowers last 1-2 months","Prune after flowering to encourage branching"]},
+{id:223,cn:"Christmas Cactus",la:"Schlumbergera",light:"Indirect light, avoid full sun",water:"Keep slightly moist, avoid waterlogging",temp:"15-25°C, needs cool temperatures to trigger blooming",fert:"Apply diluted fertilizer monthly during growing season",tips:["Blooms in autumn/winter with diverse colors","Do not move during bud stage","Reduce watering during summer dormancy"]},
+{id:224,cn:"Kaffir Lily",la:"Clivia miniata",light:"Indirect light, avoid full sun",water:"Water when dry, avoid waterlogging",temp:"15-25°C, needs cool winter rest to bloom",fert:"Apply Clivia-specific fertilizer monthly",tips:["Symmetrical leaf arrangement indicates quality","Typically blooms around late winter","Repot in autumn"]},
+{id:225,cn:"Amaryllis",la:"Hippeastrum",light:"Plenty of light",water:"Keep moist during growth, reduce during dormancy",temp:"18-28°C",fert:"Apply fertilizer every two weeks during growth",tips:["Keep one-third of the bulb above soil","Large colorful flowers, peaks in spring","Continue caring for the bulb after flowering"]},
+{id:226,cn:"Hyacinth",la:"Hyacinthus orientalis",light:"Plenty of light",water:"Keep soil moist",temp:"15-20°C, prefers cool conditions",fert:"Apply phosphorus-potassium fertilizer monthly during growth",tips:["Can be grown in soil or water","Fragrance is strong — avoid placing in bedrooms","Let foliage die back naturally to nourish the bulb"]},
+{id:227,cn:"Narcissus",la:"Narcissus tazetta",light:"Plenty of light",water:"Change water frequently if hydroponic; keep moist if potted",temp:"10-18°C, prefers cool conditions",fert:"No fertilizer needed for hydroponic",tips:["Traditional Chinese New Year flower","Bulbs can be carved to shape blooms","Bulbs are toxic — do not ingest"]},
+{id:228,cn:"Tulip",la:"Tulipa",light:"Full sun",water:"Keep slightly moist, avoid waterlogging",temp:"15-20°C, prefers cool conditions",fert:"Apply phosphorus-potassium fertilizer monthly during growth",tips:["Bulbs need cold stratification","Peak bloom in spring","Let foliage die back naturally after flowering"]},
+{id:229,cn:"Lily",la:"Lilium",light:"Plenty of light",water:"Keep soil moist",temp:"15-25°C",fert:"Apply fertilizer every two weeks during growth",tips:["Fragrant flowers, great for living rooms","Remove anthers promptly to prevent staining","Bulbs are edible in some varieties"]},
+{id:230,cn:"Jasmine",la:"Jasminum sambac",light:"Full sun — more sun means more fragrance",water:"Likes moisture, water frequently in summer",temp:"20-35°C, not cold-hardy",fert:"Apply phosphorus-potassium fertilizer weekly during bloom",tips:["Can bloom up to three times a year","Prune after flowering to encourage branching","Winter leaf drop is normal dormancy"]},
+{id:231,cn:"Gardenia",la:"Gardenia jasminoides",light:"Bright light, shade in summer",water:"Prefers acidic water — use rainwater if possible",temp:"18-28°C, not cold-hardy",fert:"Apply acidic fertilizer monthly",tips:["Avoid alkaline soil and water","Sweet fragrance, peaks in early summer","Yellow leaves may indicate iron deficiency"]},
+{id:232,cn:"Sweet Osmanthus",la:"Osmanthus fragrans",light:"Full sun",water:"Water when dry, water when needed",temp:"15-30°C, fairly cold-hardy",fert:"Apply nitrogen fertilizer in spring, phosphorus-potassium in autumn",tips:["Autumn blooms with fragrance carrying for miles","Can be used to make osmanthus honey and cakes","Northern regions need indoor overwintering in pots"]},
+{id:233,cn:"Bougainvillea",la:"Bougainvillea",light:"Full sun — insufficient light prevents blooming",water:"Restrict water to encourage blooming",temp:"15-35°C",fert:"Apply phosphorus-potassium fertilizer before blooming",tips:["The colorful parts are bracts, not flowers","Water stress can trigger blooming","Northern regions need indoor overwintering"]},
+{id:234,cn:"Chinese Rose",la:"Rosa chinensis",light:"Full sun, at least 6 hours daily",water:"Keep moist, avoid wetting leaves",temp:"15-30°C",fert:"Apply rose-specific fertilizer weekly",tips:["Queen of flowers, can bloom year-round","Watch for powdery mildew and spider mites","Prune promptly after flowering"]},
+{id:235,cn:"Hydrangea",la:"Hydrangea macrophylla",light:"Partial shade, avoid full sun",water:"Likes moisture, water frequently in summer",temp:"15-25°C",fert:"Acidic soil produces blue flowers; alkaline soil produces pink",tips:["Flower color depends on soil pH","Blooms from May to August","Prune in winter"]},
+{id:236,cn:"Lavender",la:"Lavandula",light:"Full sun",water:"Drought-tolerant, avoid waterlogging",temp:"15-30°C",fert:"Fertilize sparingly — once in spring for poor soil",tips:["Aromatic and sleep-aiding, great for sachets","Avoid humid and stuffy conditions","Prune after flowering to shape"]},
+{id:237,cn:"Rosemary",la:"Rosmarinus officinalis",light:"Full sun",water:"Drought-tolerant, avoid waterlogging",temp:"10-30°C",fert:"Fertilize sparingly",tips:["Common culinary herb","Tolerates pruning well, can be shaped","Easy to propagate from cuttings"]},
+{id:238,cn:"Mint",la:"Mentha",light:"Partial to full sun",water:"Likes moisture, keep soil moist",temp:"15-30°C, cold-hardy",fert:"Apply nitrogen fertilizer monthly",tips:["Grows extremely fast — best in a separate pot","Can be used for tea or cooking","Pinch tips regularly to encourage branching"]},
+{id:239,cn:"Basil",la:"Ocimum basilicum",light:"Full sun",water:"Keep moist, avoid waterlogging",temp:"20-30°C, not cold-hardy",fert:"Apply diluted fertilizer monthly",tips:["Essential herb in Italian cuisine","Pinch tips to encourage branching for more harvest","Best harvested before flowering"]},
+{id:240,cn:"Cuban Oregano",la:"Plectranthus tomentosa",light:"Bright indirect light",water:"Water when dry",temp:"15-30°C",fert:"Apply diluted fertilizer monthly",tips:["Emits an apple-like scent when touched","Can be used in sachets","Easy to propagate from cuttings"]},
+{id:241,cn:"Sensitive Plant",la:"Mimosa pudica",light:"Plenty of light",water:"Keep moist",temp:"20-30°C",fert:"Apply diluted fertilizer monthly",tips:["Leaves fold when touched","Fun interactive plant","Fast-growing"]},
+{id:243,cn:"Tropical Pitcher Plant",la:"Nepenthes",light:"Bright indirect light",water:"Maintain high humidity, use purified water",temp:"20-30°C",fert:"No fertilizer needed — catches its own insects",tips:["Carnivorous plant — pitchers are modified leaves","Avoid tap water","Keep substrate moist but not waterlogged"]},
+{id:244,cn:"Venus Flytrap",la:"Dionaea muscipula",light:"Plenty of light",water:"Use purified or rainwater, keep moist",temp:"15-30°C, needs cool winter dormancy",fert:"No fertilizer needed",tips:["Traps catch small insects","Avoid triggering traps unnecessarily","Winter dormancy is normal"]},
+{id:245,cn:"Air Plant",la:"Tillandsia",light:"Bright indirect light",water:"Soak in water for 20-30 minutes weekly, drain dry",temp:"15-30°C",fert:"Spray with bromeliad fertilizer monthly",tips:["No soil needed","Can be mounted on various surfaces","Silver-white scales on leaves absorb moisture"]},
+{id:246,cn:"Chinese Evergreen",la:"Aglaonema",light:"Shade-tolerant, indirect light sufficient",water:"Water when dry",temp:"18-30°C",fert:"Apply foliage fertilizer monthly",tips:["Excellent shade-tolerant indoor plant","Many colorful varieties available","Sap is mildly toxic"]},
+{id:247,cn:"Arrowhead Plant",la:"Syngonium podophyllum",light:"Indirect light",water:"Keep moist",temp:"18-30°C",fert:"Apply liquid fertilizer monthly",tips:["Leaf color varies by variety","Can be grown in water or soil","More attractive when trained to climb"]},
+{id:248,cn:"Caladium",la:"Caladium",light:"Indirect light, avoid full sun",water:"Likes moisture, mist frequently",temp:"20-30°C, not cold-hardy",fert:"Apply foliar fertilizer monthly",tips:["Leaves are vividly colored like oil paintings","Winter dormancy with leaf dieback is normal","New shoots emerge in spring"]},
+{id:249,cn:"Prayer Plant",la:"Maranta leuconeura",light:"Indirect light, avoid direct sun",water:"Keep moist, avoid dryness",temp:"18-28°C",fert:"Apply diluted fertilizer monthly",tips:["Leaves stand upright at night (nyctinasty)","Requires high humidity","Leaf patterns are the main ornamental feature"]},
+{id:250,cn:"Bird of Paradise",la:"Strelitzia reginae",light:"Plenty of light",water:"Water when dry",temp:"18-30°C",fert:"Apply general fertilizer monthly",tips:["Flowers resemble flying birds","Large indoor ornamental plant","Needs generous growing space"]},
+{id:401,cn:"Money Tree",la:"Pachira aquatica",light:"Indirect light, shade-tolerant",water:"Water every 10-15 days, avoid waterlogging",temp:"18-30°C",fert:"Apply foliage fertilizer monthly",tips:["Braided trunks are a common styling","Overwatering is the most common cause of death","Symbolizes wealth and prosperity"]},
+{id:402,cn:"China Doll",la:"Radermachera sinica",light:"Bright indirect light",water:"Water when dry",temp:"18-30°C",fert:"Apply liquid fertilizer monthly",tips:["Dense foliage like a green umbrella","Ensure good ventilation to prevent leaf drop","Symbolizes family happiness"]},
+{id:403,cn:"Cinnamon Tree",la:"Cinnamomum kotoense",light:"Indirect light",water:"Keep slightly moist",temp:"18-30°C",fert:"Apply foliage fertilizer monthly",tips:["Leaves have a subtle cinnamon scent","Large indoor green plant","Avoid strong direct sunlight"]},
+{id:404,cn:"Umbrella Plant",la:"Schefflera arboricola",light:"Indirect light, shade-tolerant",water:"Water when dry",temp:"15-30°C",fert:"Apply liquid fertilizer monthly",tips:["Also called Parasol Plant — leaves resemble duck feet","Excellent air-purifying plant","Can be pruned into shapes"]},
+{id:405,cn:"Dragon Tree",la:"Dracaena marginata",light:"Indirect light",water:"Drought-tolerant, water every 2 weeks",temp:"18-30°C",fert:"Apply diluted fertilizer monthly",tips:["Slender trunk with architectural form","Narrow sword-like leaves","Very low-maintenance"]},
+{id:406,cn:"Song of India",la:"Dracaena reflexa",light:"Bright indirect light",water:"Water when dry",temp:"18-30°C",fert:"Apply liquid fertilizer monthly",tips:["Colorful leaves with variegated edges","Slow-growing and long-lived","Great for living room decor"]},
+{id:407,cn:"Corn Plant",la:"Dracaena fragrans",light:"Indirect light",water:"Keep slightly moist",temp:"18-30°C",fert:"Apply foliage fertilizer monthly",tips:["Also called Fragrant Dragon Tree","Even water-grown logs can sprout","Broad, lush green leaves"]},
+{id:408,cn:"Sago Palm",la:"Cycas revoluta",light:"Plenty of light",water:"Drought-tolerant, avoid waterlogging",temp:"10-35°C",fert:"Apply iron fertilizer monthly in spring and summer",tips:["Also called Cycad — extremely slow-growing","Stiff, needle-like leaves","Yellow leaves indicate iron deficiency"]},
+{id:409,cn:"Norfolk Island Pine",la:"Araucaria heterophylla",light:"Bright indirect light",water:"Keep moist",temp:"15-25°C",fert:"Apply conifer-specific fertilizer monthly",tips:["Elegant tree shape resembling a Christmas tree","Suited for large spaces","Avoid dry conditions"]},
+{id:410,cn:"Buddhist Pine",la:"Podocarpus macrophyllus",light:"Full sun to partial shade",water:"Water when dry",temp:"10-30°C, fairly cold-hardy",fert:"Apply fertilizer monthly in spring and summer",tips:["Traditional bonsai species","Symbolizes longevity and good fortune","Tolerates pruning well for shaping"]},
+{id:411,cn:"Snow Rose",la:"Serissa japonica",light:"Plenty of light",water:"Keep moist",temp:"15-28°C",fert:"Apply diluted fertilizer monthly",tips:["Blooms white flowers like snow in summer","Traditional bonsai material","Avoid waterlogging"]},
+{id:412,cn:"Ficus Bonsai",la:"Ficus microcarpa",light:"Plenty of light",water:"Keep moist, mist frequently",temp:"18-30°C, not cold-hardy",fert:"Apply liquid fertilizer monthly",tips:["Aerial roots can create a banyan-like effect","Tolerates pruning well","Avoid strong sun and cold drafts"]},
+{id:413,cn:"Elm Bonsai",la:"Ulmus parvifolia",light:"Plenty of light",water:"Water when dry",temp:"10-30°C",fert:"Apply fertilizer monthly in spring and summer",tips:["Deciduous — autumn/winter leaf drop is normal","Attractive mottled bark","Great bonsai for beginners"]},
+{id:414,cn:"Boxwood Bonsai",la:"Buxus sinica",light:"Indirect light",water:"Keep moist",temp:"10-30°C",fert:"Apply diluted fertilizer monthly",tips:["Evergreen shrub with tiny leaves","Tolerates pruning well","Slow-growing"]},
+{id:415,cn:"Goji Berry Bonsai",la:"Lycium chinense",light:"Full sun",water:"Water when dry",temp:"-10 to 35°C, extremely cold-hardy",fert:"Apply fertilizer monthly in spring and summer",tips:["Ornamental for both fruit and foliage","Berries are edible","Tolerates poor soil"]},
+{id:416,cn:"Elephant Bush",la:"Portulacaria afra",light:"Plenty of light",water:"Drought-tolerant, water when fully dry",temp:"10-35°C",fert:"Apply succulent fertilizer monthly",tips:["Also called Jade's Cousin","Small, lush green leaves","Ideal for miniature bonsai"]},
+{id:417,cn:"Jade Plant",la:"Crassula ovata",light:"Plenty of light",water:"Drought-tolerant, water every 2-3 weeks",temp:"10-30°C",fert:"Apply fertilizer monthly in spring and summer",tips:["Also called Money Plant","Round, jade-like leaves","Can flower after years of care"]},
+{id:418,cn:"Echeveria",la:"Echeveria",light:"Plenty of light",water:"Water when fully dry, avoid water pooling in rosette center",temp:"5-35°C",fert:"Apply succulent fertilizer monthly in spring and autumn",tips:["Rosette arrangement is highly ornamental","Easy to propagate from leaf cuttings","Ensure good ventilation in summer"]},
+{id:419,cn:"Black Rose",la:"Aeonium arboreum",light:"Plenty of light, shade in summer",water:"Reduce water in summer dormancy; water normally in spring and autumn",temp:"10-30°C",fert:"Apply diluted fertilizer monthly during growing season",tips:["Dark rosettes are very distinctive","Leaves curl inward during summer dormancy","Grows rapidly in spring and autumn"]},
+{id:420,cn:"Jelly Bean Plant",la:"Sedum rubrotinctum",light:"Plenty of light — good light produces red leaves",water:"Water when fully dry",temp:"5-35°C",fert:"Fertilize sparingly — once each in spring and autumn",tips:["Leaf color turns red with sun exposure and temperature changes","Fallen leaves can be used for propagation","Most beautiful in jelly-bean colors"]},
+{id:421,cn:"Bear's Paw",la:"Cotyledon tomentosa",light:"Bright indirect light",water:"Water when fully dry, avoid wetting leaves",temp:"5-30°C",fert:"Apply succulent fertilizer monthly in spring and autumn",tips:["Fuzzy leaves resemble tiny bear paws","Leaf fuzz should not get wet","Reduce watering during summer dormancy"]},
+{id:601,cn:"Living Stone",la:"Lithops",light:"Plenty of light",water:"Water very sparingly, stop watering during leaf shedding",temp:"10-35°C",fert:"Fertilize very sparingly",tips:["Also called Butt Plant — mimics stones","Only grows 1-2 new leaf pairs per year","Do not water during shedding period"]},
+{id:602,cn:"Crystal Succulent",la:"Haworthia cooperi",light:"Indirect light, avoid full sun",water:"Water when fully dry, reduce in summer",temp:"10-30°C",fert:"Apply diluted fertilizer monthly in spring and autumn",tips:["Translucent leaf tips resemble windows","Needs shade and ventilation during summer dormancy","Enclosing in a bag can enhance window transparency"]},
+{id:603,cn:"Zebra Haworthia",la:"Haworthia fasciata",light:"Indirect light",water:"Water when fully dry",temp:"10-30°C",fert:"Apply diluted fertilizer monthly during growing season",tips:["White stripes resemble a zebra pattern","Slow-growing","Ideal for small pots"]}
 ];
 
 /* SECTION: render */
@@ -229,9 +229,9 @@ const searchInput=document.getElementById("searchInput");
 let currentIdx=-1;
 
 function renderGrid(list){
-  if(!list.length){grid.innerHTML="";noResults.style.display="block";countEl.textContent="共 0 种植物";return}
+  if(!list.length){grid.innerHTML="";noResults.style.display="block";countEl.textContent="0 plants";return}
   noResults.style.display="none";
-  countEl.textContent=`共 ${list.length} 种植物`;
+  countEl.textContent=`${list.length} plants`;
   grid.innerHTML=list.map((p,i)=>{
     const globalIdx=plants.findIndex(x=>x.id===p.id);
     return `<a class="card" onclick="openDetail(${globalIdx})" data-primary-action="${i===0?'true':'false'}">
@@ -263,7 +263,7 @@ function openDetail(idx){
   const prev=idx>0?idx-1:-1;
   const next=idx<plants.length-1?idx+1:-1;
   panel.innerHTML=`
-    <button class="detail-close" onclick="closeDetail()" aria-label="关闭">✕</button>
+    <button class="detail-close" onclick="closeDetail()" aria-label="Close">✕</button>
     <div class="detail-hero">
       <div class="detail-img">
         <img src="images/${p.id}.png" alt="${p.cn}" onerror="this.style.display='none'">
@@ -278,36 +278,36 @@ function openDetail(idx){
       <div class="care-grid">
         <div class="care-card light">
           <div class="care-icon">☀️</div>
-          <h3>光照</h3>
+          <h3>Light</h3>
           <p>${p.light}</p>
         </div>
         <div class="care-card water">
           <div class="care-icon">💧</div>
-          <h3>浇水</h3>
+          <h3>Watering</h3>
           <p>${p.water}</p>
         </div>
         <div class="care-card temp">
           <div class="care-icon">🌡️</div>
-          <h3>温度</h3>
+          <h3>Temperature</h3>
           <p>${p.temp}</p>
         </div>
         <div class="care-card fert">
           <div class="care-icon">🌱</div>
-          <h3>施肥</h3>
+          <h3>Fertilizing</h3>
           <p>${p.fert}</p>
         </div>
       </div>
     </div>
     <div class="detail-tips">
-      <h3>💡 注意事项</h3>
+      <h3>💡 Care Tips</h3>
       <ul>${p.tips.map(t=>`<li>${t}</li>`).join("")}</ul>
     </div>
     <div class="detail-nav">
       <button class="nav-btn ${prev>=0?"":"disabled"}" onclick="${prev>=0?`openDetail(${prev})`:""}">
-        ← ${prev>=0?plants[prev].cn:"没有更多了"}
+        ← ${prev>=0?plants[prev].cn:"No more"}
       </button>
       <button class="nav-btn ${next>=0?"":"disabled"}" onclick="${next>=0?`openDetail(${next})`:""}">
-        ${next>=0?plants[next].cn:"没有更多了"} →
+        ${next>=0?plants[next].cn:"No more"} →
       </button>
     </div>`;
   overlay.classList.add("active");

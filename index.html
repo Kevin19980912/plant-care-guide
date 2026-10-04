@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>植物养护指南</title>
+<style>
+/* SECTION: reset */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--c1:#1b4332;--c2:#2d6a4f;--c3:#40916c;--c4:#52b788;--c5:#74c69d;--c6:#95d5b2;--bg:#f0f4f0;--card:#ffffff;--text:#1a1a2e;--text2:#555;--text3:#888;--shadow:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);--shadow-h:0 4px 12px rgba(0,0,0,.08),0 12px 32px rgba(0,0,0,.08);--r:14px;--tr:.25s cubic-bezier(.4,0,.2,1)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* SECTION: header */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(45,106,79,.08)}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:64px;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--c2);font-size:20px;font-weight:800;letter-spacing:-.5px;flex-shrink:0}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--c4),var(--c2));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px}
+.search-wrap{flex:1;max-width:400px;position:relative}
+.search-wrap input{width:100%;height:42px;border:2px solid #e8ede8;border-radius:42px;padding:0 42px 0 18px;font-size:14px;color:var(--text);background:#fff;outline:none;transition:var(--tr)}
+.search-wrap input:focus{border-color:var(--c4);box-shadow:0 0 0 4px rgba(82,183,136,.12)}
+.search-wrap input::placeholder{color:#bbb}
+.search-wrap .s-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none}
+.plant-count{font-size:13px;color:var(--text3);white-space:nowrap;flex-shrink:0;font-weight:500}
+
+/* SECTION: hero */
+.hero{max-width:1200px;margin:0 auto;padding:40px 24px 20px;text-align:center}
+.hero h1{font-size:32px;font-weight:800;color:var(--c1);letter-spacing:-.5px;margin-bottom:8px}
+.hero p{font-size:15px;color:var(--text2);max-width:480px;margin:0 auto}
+
+/* SECTION: grid */
+.gallery{max-width:1200px;margin:0 auto;padding:0 24px 60px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.card{background:var(--card);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform var(--tr),box-shadow var(--tr);box-shadow:var(--shadow);text-decoration:none;color:inherit;display:flex;flex-direction:column;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-h)}
+.card-img{position:relative;aspect-ratio:1/1;overflow:hidden;background:linear-gradient(135deg,#e8f5e9,#c8e6c9)}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.card:hover .card-img img{transform:scale(1.06)}
+.id-badge{position:absolute;top:10px;left:10px;background:rgba(27,67,50,.82);backdrop-filter:blur(6px);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.3px}
+.card-body{padding:14px 16px 16px}
+.card-cn{font-size:15px;font-weight:700;line-height:1.4;color:var(--text);margin-bottom:2px}
+.card-la{font-size:12px;color:var(--text3);font-style:italic;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* SECTION: empty */
+.no-results{text-align:center;padding:80px 20px;color:var(--text3)}
+.no-results .emoji{font-size:48px;margin-bottom:16px}
+
+/* SECTION: detail overlay */
+.overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s ease;display:flex;align-items:center;justify-content:center;padding:20px}
+.overlay.active{opacity:1;pointer-events:auto}
+.detail-panel{background:#fff;border-radius:18px;max-width:720px;width:100%;max-height:90vh;overflow-y:auto;position:relative;transform:translateY(20px) scale(.97);transition:transform .35s ease;box-shadow:0 20px 60px rgba(0,0,0,.18)}
+.overlay.active .detail-panel{transform:translateY(0) scale(1)}
+.detail-close{position:sticky;top:12px;float:right;margin:12px 12px 0 0;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.06);border:none;cursor:pointer;font-size:18px;color:var(--text2);display:flex;align-items:center;justify-content:center;z-index:10;transition:background .2s}
+.detail-close:hover{background:rgba(0,0,0,.1)}
+.detail-hero{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:32px 32px 24px;align-items:start}
+.detail-img{aspect-ratio:1/1;border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.detail-img img{width:100%;height:100%;object-fit:cover}
+.detail-meta{display:flex;flex-direction:column;justify-content:center;gap:8px}
+.detail-id{display:inline-block;background:var(--c2);color:#fff;font-size:13px;font-weight:700;padding:4px 14px;border-radius:20px;width:fit-content}
+.detail-cn{font-size:28px;font-weight:800;line-height:1.3;color:var(--c1)}
+.detail-la{font-size:15px;color:var(--text3);font-style:italic}
+.detail-care{padding:0 32px 24px}
+.care-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.care-card{background:var(--bg);border-radius:12px;padding:16px}
+.care-card .care-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px}
+.care-card.light .care-icon{background:#fff8e1;color:#f9a825}
+.care-card.water .care-icon{background:#e3f2fd;color:#1976d2}
+.care-card.temp .care-icon{background:#fce4ec;color:#e53935}
+.care-card.fert .care-icon{background:#e8f5e9;color:#2e7d32}
+.care-card h3{font-size:14px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.care-card p{font-size:13px;color:var(--text2);line-height:1.5}
+.detail-tips{padding:0 32px 28px}
+.detail-tips h3{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--text)}
+.detail-tips ul{list-style:none;padding:0}
+.detail-tips li{position:relative;padding-left:22px;margin-bottom:8px;font-size:13px;color:var(--text2);line-height:1.6}
+.detail-tips li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:var(--c5)}
+.detail-nav{display:flex;justify-content:space-between;padding:16px 32px 24px;border-top:1px solid #eee}
+.nav-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--c2);font-size:14px;font-weight:600;padding:8px 16px;border-radius:8px;transition:background .2s;border:none;background:none;cursor:pointer}
+.nav-btn:hover{background:rgba(45,106,79,.06)}
+.nav-btn.disabled{opacity:.3;pointer-events:none}
+
+/* SECTION: footer */
+.site-footer{text-align:center;padding:24px;color:var(--text3);font-size:12px;border-top:1px solid #e8ede8}
+
+/* SECTION: responsive */
+@media(max-width:768px){
+  .header-inner{height:auto;padding:12px 16px;flex-wrap:wrap}
+  .search-wrap{max-width:100%;order:3;width:100%}
+  .hero{padding:28px 16px 12px}
+  .hero h1{font-size:24px}
+  .gallery{padding:0 16px 40px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px}
+  .card-body{padding:10px 12px 14px}
+  .detail-hero{grid-template-columns:1fr;gap:16px;padding:20px 20px 16px}
+  .detail-care,.detail-tips,.detail-nav{padding-left:20px;padding-right:20px}
+  .care-grid{grid-template-columns:1fr}
+  .detail-cn{font-size:24px}
+  .overlay{padding:10px}
+}
+@media(max-width:380px){
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- SECTION: header -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="logo" onclick="showGallery();return false">
+      <span class="logo-icon">🌿</span>
+      <span>植物养护指南</span>
+    </a>
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="输入编号或名称搜索…" autocomplete="off" oninput="filterPlants()">
+      <span class="s-icon">🔍</span>
+    </div>
+    <div class="plant-count" id="plantCount"></div>
+  </div>
+</header>
+
+<!-- SECTION: hero -->
+<div class="hero" id="heroSection">
+  <h1>植物养护指南</h1>
+  <p>在运货标签上找到 3 位植物编号，输入即可查询养护方法。例如标签写着 <strong>022 × 1</strong>，请输入 <strong>022</strong></p>
+</div>
+
+<!-- SECTION: gallery -->
+<div class="gallery">
+  <div class="grid" id="plantGrid"></div>
+  <div class="no-results" id="noResults" style="display:none">
+    <div class="emoji">🌱</div>
+    <p>没有找到匹配的植物，试试其他关键词</p>
+  </div>
+</div>
+
+<!-- SECTION: detail overlay -->
+<div class="overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+  <div class="detail-panel" id="detailPanel"></div>
+</div>
+
+<!-- SECTION: footer -->
+<footer class="site-footer">© 2026 植物养护指南 · Plant Care Guide</footer>
+
+<script>
+/* SECTION: plant data */
+const plants=[
+{id:201,cn:"白掌",la:"Spathiphyllum",light:"明亮散射光，避免直射阳光",water:"保持土壤微湿，每周浇1-2次，冬季减少",temp:"18-28°C，低于10°C需保暖",fert:"生长期每月施一次稀薄液肥",tips:["叶片发黄多为浇水过多或光照过强","定期擦拭叶片保持光泽","花期可持续数月，是优秀的室内观花植物"]},
+{id:202,cn:"绿萝",la:"Epipremnum aureum",light:"耐阴，散射光即可",water:"土表干透再浇透，冬季减少浇水频率",temp:"15-30°C，不耐寒",fert:"每月施一次通用液肥",tips:["可以水培也可以土培","黄叶及时剪除，促进新叶生长","适合放在办公桌或书架上"]},
+{id:203,cn:"龟背竹",la:"Monstera deliciosa",light:"明亮散射光，忌暴晒",water:"每周浇水1次，保持微湿不积水",temp:"18-30°C，冬季不低于10°C",fert:"春夏每月施一次观叶植物肥",tips:["叶片开裂是成熟标志","可用气生根引导攀爬","定期转盆保持株型均匀"]},
+{id:204,cn:"虎皮兰",la:"Sansevieria",light:"适应性强，全日照到半阴均可",water:"极耐旱，2-3周浇一次即可",temp:"15-35°C，低于10°C停止浇水",fert:"每季度施一次稀薄肥",tips:["优秀的空气净化植物","浇水过多易烂根，宁干勿湿","可放在卧室，夜间释放氧气"]},
+{id:205,cn:"吊兰",la:"Chlorophytum comosum",light:"散射光，耐半阴",water:"保持土壤湿润，夏季注意补水",temp:"15-25°C，不耐寒",fert:"每月施一次稀薄液肥",tips:["可长出匍匐茎悬垂生长","能吸收甲醛等有害气体","适合悬挂种植或放高架"]},
+{id:206,cn:"芦荟",la:"Aloe vera",light:"充足光照，夏季适当遮阴",water:"耐旱，半月浇一次，忌积水",temp:"15-35°C，不耐霜冻",fert:"春夏每月施一次多肉专用肥",tips:["叶片汁液可用于轻微烫伤护理","盆土必须排水良好","老叶外层干瘪属正常现象"]},
+{id:207,cn:"仙人掌",la:"Cactaceae",light:"全日照，越晒越好",water:"极少浇水，月浇1-2次，冬季断水",temp:"10-40°C，耐旱不耐寒",fert:"生长期每月施一次仙人掌专用肥",tips:["盆土用颗粒土保证排水","刺座处容易积灰，可用软刷清理","开花需要充足光照和适当温差"]},
+{id:208,cn:"多肉拼盘",la:"Succulent Mix",light:"充足光照，每天4小时以上",water:"干透浇透，夏季控水防黑腐",temp:"5-35°C，冬季需保暖",fert:"春秋生长季每月施一次稀薄多肉肥",tips:["不同品种浇水需求可能不同","夏季注意通风，防止闷热潮湿","发现徒长说明光照不足"]},
+{id:209,cn:"铜钱草",la:"Pilea peperomioides",light:"明亮散射光，避免暴晒",water:"喜湿，保持土壤湿润，可半水培",temp:"15-30°C，不耐寒",fert:"每周施一次稀薄液肥",tips:["叶片趋光性强，定期转盆","可以分株繁殖","寓意财源广进"]},
+{id:210,cn:"琴叶榕",la:"Ficus lyrata",light:"明亮光照，每天4-6小时",water:"表土干后浇透，忌积水",temp:"18-30°C，怕冷风吹",fert:"春夏每两周施一次观叶肥",tips:["叶片大易积灰，定期擦拭","忌频繁移动位置","落叶多为浇水不当或环境突变"]},
+{id:211,cn:"散尾葵",la:"Dypsis lutescens",light:"明亮散射光",water:"保持土壤湿润，经常向叶面喷水",temp:"20-30°C，不耐寒",fert:"每月施一次棕榈专用肥",tips:["优秀的室内加湿植物","叶尖干枯多为空气太干燥","需要较大的生长空间"]},
+{id:212,cn:"橡皮树",la:"Ficus elastica",light:"明亮光照，耐半阴",water:"土表干透再浇水",temp:"15-35°C，不耐寒",fert:"每月施一次通用液肥",tips:["叶片厚实有光泽，定期擦拭","可修剪控制高度","汁液有轻微刺激性，操作时戴手套"]},
+{id:213,cn:"富贵竹",la:"Dracaena sanderiana",light:"散射光，忌直射",water:"水培每周换水，土培保持湿润",temp:"18-30°C，低于10°C易冻伤",fert:"水培每月加几滴营养液",tips:["水培可用矿泉水或晾过的自来水","黄叶多为水质或光照问题","寓意步步高升"]},
+{id:214,cn:"文竹",la:"Asparagus setaceus",light:"散射光，忌暴晒",water:"喜湿润，经常喷水增湿",temp:"15-25°C，不耐寒",fert:"每月施一次稀薄液肥",tips:["枝叶细密如云片，极具文人气质","忌烟尘和空气干燥","适合书房或客厅摆放"]},
+{id:215,cn:"铁线蕨",la:"Adiantum",light:"散射光或半阴环境",water:"保持土壤始终湿润，每天喷水",temp:"15-25°C，怕热怕冷",fert:"每月施一次蕨类专用肥",tips:["对空气湿度要求高","浴室或厨房窗台是理想位置","叶片发黄可齐根剪除促新叶"]},
+{id:216,cn:"波士顿蕨",la:"Nephrolepis exaltata",light:"散射光，忌直射阳光",water:"保持土壤湿润，经常喷雾",temp:"16-26°C",fert:"每月施一次稀薄液肥",tips:["天然的空气加湿器","适合悬挂种植","枯叶及时清除保持通风"]},
+{id:217,cn:"袖珍椰子",la:"Chamaedorea elegans",light:"耐阴，散射光即可",water:"保持土壤微湿",temp:"18-28°C，不耐寒",fert:"春夏每月施一次棕榈肥",tips:["适合桌面摆放的迷你椰子","忌强光直射","生长缓慢但寿命长"]},
+{id:218,cn:"常春藤",la:"Hedera helix",light:"散射光，耐阴",water:"土表干后浇水，忌积水",temp:"10-25°C，较耐寒",fert:"每月施一次通用液肥",tips:["可攀爬也可垂吊生长","优秀的空气净化植物","可修剪造型"]},
+{id:219,cn:"豆瓣绿",la:"Peperomia obtusifolia",light:"散射光，耐半阴",water:"干透浇透，忌积水",temp:"15-30°C",fert:"春夏每月施一次稀薄肥",tips:["叶片肥厚有蜡质感","适合新手养护","可扦插繁殖"]},
+{id:220,cn:"红掌",la:"Anthurium andraeanum",light:"明亮散射光",water:"保持土壤湿润但不积水",temp:"20-30°C，不耐寒",fert:"每两周施一次花卉专用肥",tips:["花期全年可达","佛焰苞不是真正的花","叶片和花苞可擦拭保持光泽"]},
+{id:221,cn:"蝴蝶兰",la:"Phalaenopsis",light:"明亮散射光，忌直射",water:"水苔干透再浇透，约7-10天",temp:"18-28°C，需温差催花",fert:"每月施一次兰花专用肥",tips:["花期可达2-3个月","花梗花后可剪至第二节促复花","忌积水烂根"]},
+{id:222,cn:"长寿花",la:"Kalanchoe blossfeldiana",light:"充足光照",water:"干透浇透，忌叶面喷水",temp:"15-25°C",fert:"花期前每月施磷钾肥",tips:["短日照植物，秋冬开花","花期长达1-2个月","花后修剪促分枝"]},
+{id:223,cn:"蟹爪兰",la:"Schlumbergera",light:"散射光，忌暴晒",water:"保持微湿，忌积水",temp:"15-25°C，花期需低温催花",fert:"生长期每月施一次稀薄肥",tips:["秋冬开花，花色丰富","花苞期忌移动位置","夏季休眠减少浇水"]},
+{id:224,cn:"君子兰",la:"Clivia miniata",light:"散射光，忌暴晒",water:"见干见湿，忌积水",temp:"15-25°C，冬季需低温春化",fert:"每月施一次君子兰专用肥",tips:["叶片整齐对生是品质体现","每年春节前后开花","换盆宜在秋季"]},
+{id:225,cn:"朱顶红",la:"Hippeastrum",light:"充足光照",water:"生长期保持湿润，休眠期控水",temp:"18-28°C",fert:"生长期每两周施一次肥",tips:["种球1/3露出土面","花大色艳，春季盛花","花后继续养护球根"]},
+{id:226,cn:"风信子",la:"Hyacinthus orientalis",light:"充足光照",water:"保持土壤湿润",temp:"15-20°C，喜凉爽",fert:"生长期每月施一次磷钾肥",tips:["可土培也可水培","花香浓郁，不宜放在卧室","花后养球至叶枯"]},
+{id:227,cn:"水仙",la:"Narcissus tazetta",light:"充足光照",water:"水培勤换水，土培保持湿润",temp:"10-18°C，喜冷凉",fert:"水培可不施肥",tips:["中国传统年宵花","雕刻可控制花型","球根有毒，勿误食"]},
+{id:228,cn:"郁金香",la:"Tulipa",light:"全日照",water:"保持微湿，忌积水",temp:"15-20°C，喜冷凉",fert:"生长期每月施一次磷钾肥",tips:["种球需低温春化","春季盛花期","花后养球至叶枯黄"]},
+{id:229,cn:"百合",la:"Lilium",light:"充足光照",water:"保持土壤湿润",temp:"15-25°C",fert:"生长期每两周施一次肥",tips:["花香浓郁，适合客厅","花药及时摘除防染色","鳞茎可食用（部分品种）"]},
+{id:230,cn:"茉莉花",la:"Jasminum sambac",light:"全日照，越晒花越香",water:"喜湿，夏季需勤浇水",temp:"20-35°C，不耐寒",fert:"花期每周施一次磷钾肥",tips:["一年可开三茬花","花后可修剪促分枝","冬季落叶属正常休眠"]},
+{id:231,cn:"栀子花",la:"Gardenia jasminoides",light:"明亮光照，夏季遮阴",water:"喜酸性水，可用雨水浇灌",temp:"18-28°C，不耐寒",fert:"每月施一次酸性肥",tips:["忌碱性土和碱性水","花香清甜，初夏盛花","叶黄可补铁"]},
+{id:232,cn:"桂花",la:"Osmanthus fragrans",light:"全日照",water:"见干见湿",temp:"15-30°C，较耐寒",fert:"春季施氮肥，秋季施磷钾肥",tips:["秋季开花香飘数里","可做桂花蜜和桂花糕","北方需盆栽室内越冬"]},
+{id:233,cn:"三角梅",la:"Bougainvillea",light:"全日照，光照不足不开花",water:"适当控水促花",temp:"15-35°C",fert:"花期前施磷钾肥",tips:["看到的彩色部分是苞片不是花","控水可促花","北方需室内越冬"]},
+{id:234,cn:"月季",la:"Rosa chinensis",light:"全日照，每天6小时以上",water:"保持湿润，忌叶面喷水",temp:"15-30°C",fert:"每周施一次月季专用肥",tips:["花中皇后，四季可开花","注意防治白粉病和红蜘蛛","花后及时修剪"]},
+{id:235,cn:"绣球花",la:"Hydrangea macrophylla",light:"半阴环境，忌暴晒",water:"喜湿，夏季需勤浇水",temp:"15-25°C",fert:"酸性土蓝色花，碱性土粉色花",tips:["花色受土壤酸碱度影响","花期5-8月","冬季修剪"]},
+{id:236,cn:"薰衣草",la:"Lavandula",light:"全日照",water:"耐旱，忌积水",temp:"15-30°C",fert:"少施肥，贫瘠土壤春季施一次",tips:["芳香助眠，可做香包","忌潮湿闷热","花后可修剪整形"]},
+{id:237,cn:"迷迭香",la:"Rosmarinus officinalis",light:"全日照",water:"耐旱，忌积水",temp:"10-30°C",fert:"少施肥",tips:["烹饪常用香料","耐修剪，可造型","扦插繁殖容易"]},
+{id:238,cn:"薄荷",la:"Mentha",light:"半日照到全日照",water:"喜湿，保持土壤湿润",temp:"15-30°C，耐寒",fert:"每月施一次氮肥",tips:["生长极快，建议单独盆栽","可泡茶或做菜","定期打顶促分枝"]},
+{id:239,cn:"罗勒",la:"Ocimum basilicum",light:"全日照",water:"保持湿润，忌积水",temp:"20-30°C，不耐寒",fert:"每月施一次稀薄肥",tips:["意大利菜常用香料","打顶促分枝可多收","开花前采摘风味最佳"]},
+{id:240,cn:"碰碰香",la:"Plectranthus tomentosa",light:"明亮散射光",water:"见干见湿",temp:"15-30°C",fert:"每月施一次稀薄肥",tips:["触碰散发苹果香气","可做香囊","扦插繁殖容易"]},
+{id:241,cn:"含羞草",la:"Mimosa pudica",light:"充足光照",water:"保持湿润",temp:"20-30°C",fert:"每月施一次稀薄肥",tips:["触碰叶片会合拢","有趣互动植物","生长速度快"]},
+{id:243,cn:"猪笼草",la:"Nepenthes",light:"明亮散射光",water:"保持高湿度，用纯净水",temp:"20-30°C",fert:"不需施肥，自行捕虫",tips:["食虫植物，捕虫笼是变态叶","忌用自来水","基质保持湿润不积水"]},
+{id:244,cn:"捕蝇草",la:"Dionaea muscipula",light:"充足光照",water:"用纯净水或雨水，保持湿润",temp:"15-30°C，冬季需低温休眠",fert:"不需施肥",tips:["夹子可捕食小昆虫","忌频繁触发夹子","冬季休眠期正常"]},
+{id:245,cn:"空气凤梨",la:"Tillandsia",light:"明亮散射光",water:"每周泡水20-30分钟，沥干",temp:"15-30°C",fert:"每月喷一次凤梨专用肥",tips:["不需要土壤","可附着在各种支架上","叶面银白色鳞片用于吸收水分"]},
+{id:246,cn:"万年青",la:"Aglaonema",light:"耐阴，散射光即可",water:"见干见湿",temp:"18-30°C",fert:"每月施一次观叶肥",tips:["优秀的室内耐阴植物","品种花色丰富","汁液有轻微毒性"]},
+{id:247,cn:"合果芋",la:"Syngonium podophyllum",light:"散射光",water:"保持湿润",temp:"18-30°C",fert:"每月施一次液肥",tips:["叶色随品种变化","可水培或土培","攀附生长更有型"]},
+{id:248,cn:"彩叶芋",la:"Caladium",light:"散射光，忌暴晒",water:"喜湿润，经常喷水",temp:"20-30°C，不耐寒",fert:"每月施一次叶面肥",tips:["叶色绚丽如油画","冬季休眠叶片枯萎属正常","春季重新发芽"]},
+{id:249,cn:"竹芋",la:"Maranta leuconeura",light:"散射光，忌直射",water:"保持湿润，忌干燥",temp:"18-28°C",fert:"每月施一次稀薄肥",tips:["叶片夜间会竖立（睡眠运动）","对空气湿度要求高","叶面斑纹是观赏重点"]},
+{id:250,cn:"天堂鸟",la:"Strelitzia reginae",light:"充足光照",water:"见干见湿",temp:"18-30°C",fert:"每月施一次通用肥",tips:["花形如飞鸟","大型室内观叶植物","需较大生长空间"]},
+{id:401,cn:"发财树",la:"Pachira aquatica",light:"散射光，耐阴",water:"10-15天浇一次，忌积水",temp:"18-30°C",fert:"每月施一次观叶肥",tips:["编织树干是常见造型","浇水过多是最常见死因","寓意招财进宝"]},
+{id:402,cn:"幸福树",la:"Radermachera sinica",light:"明亮散射光",water:"见干见湿",temp:"18-30°C",fert:"每月施一次液肥",tips:["叶片繁密如绿伞","注意通风防落叶","寓意家庭幸福"]},
+{id:403,cn:"平安树",la:"Cinnamomum kotoense",light:"散射光",water:"保持微湿",temp:"18-30°C",fert:"每月施一次观叶肥",tips:["叶片有淡淡清香","大型室内绿植","忌强光直射"]},
+{id:404,cn:"鸭脚木",la:"Schefflera arboricola",light:"散射光，耐阴",water:"见干见湿",temp:"15-30°C",fert:"每月施一次液肥",tips:["又名鹅掌柴，叶片如鸭掌","优秀的空气净化植物","可修剪造型"]},
+{id:405,cn:"龙血树",la:"Dracaena marginata",light:"散射光",water:"耐旱，2周浇一次",temp:"18-30°C",fert:"每月施一次稀薄肥",tips:["树干细长有型","叶片窄长如剑","非常耐养"]},
+{id:406,cn:"千年木",la:"Dracaena reflexa",light:"明亮散射光",water:"见干见湿",temp:"18-30°C",fert:"每月施一次液肥",tips:["叶色艳丽有彩边","生长缓慢寿命长","适合客厅装饰"]},
+{id:407,cn:"巴西木",la:"Dracaena fragrans",light:"散射光",water:"保持微湿",temp:"18-30°C",fert:"每月施一次观叶肥",tips:["又名香龙血树","水培木桩也能发芽","叶片宽大翠绿"]},
+{id:408,cn:"苏铁",la:"Cycas revoluta",light:"充足光照",water:"耐旱，忌积水",temp:"10-35°C",fert:"春夏每月施一次铁肥",tips:["又名铁树，生长极慢","叶片坚硬如针","缺铁时叶片发黄"]},
+{id:409,cn:"南洋杉",la:"Araucaria heterophylla",light:"明亮散射光",water:"保持湿润",temp:"15-25°C",fert:"每月施一次针叶树专用肥",tips:["树形优美如圣诞树","适合大型空间","忌干燥环境"]},
+{id:410,cn:"罗汉松",la:"Podocarpus macrophyllus",light:"全日照到半阴",water:"见干见湿",temp:"10-30°C，较耐寒",fert:"春夏每月施一次肥",tips:["传统盆景树种","寓意长寿吉祥","耐修剪可造型"]},
+{id:411,cn:"六月雪",la:"Serissa japonica",light:"充足光照",water:"保持湿润",temp:"15-28°C",fert:"每月施一次稀薄肥",tips:["夏季开白花如雪","传统盆景材料","忌积水"]},
+{id:412,cn:"榕树盆景",la:"Ficus microcarpa",light:"充足光照",water:"保持湿润，经常喷水",temp:"18-30°C，不耐寒",fert:"每月施一次液肥",tips:["气根可形成独木成林景观","耐修剪","忌强光暴晒和冷风"]},
+{id:413,cn:"榆树盆景",la:"Ulmus parvifolia",light:"充足光照",water:"见干见湿",temp:"10-30°C",fert:"春夏每月施一次肥",tips:["落叶树种，秋冬落叶属正常","树皮斑驳有韵味","适合新手盆景"]},
+{id:414,cn:"黄杨盆景",la:"Buxus sinica",light:"散射光",water:"保持湿润",temp:"10-30°C",fert:"每月施一次稀薄肥",tips:["常绿灌木，叶片小巧","耐修剪","生长缓慢"]},
+{id:415,cn:"枸杞盆景",la:"Lycium chinense",light:"全日照",water:"见干见湿",temp:"-10~35°C，极耐寒",fert:"春夏每月施一次肥",tips:["可观果也可观叶","果实可食用","耐贫瘠"]},
+{id:416,cn:"金枝玉叶",la:"Portulacaria afra",light:"充足光照",water:"耐旱，干透浇透",temp:"10-35°C",fert:"每月施一次多肉肥",tips:["又名树马齿苋","叶片小巧翠绿","适合做微型盆景"]},
+{id:417,cn:"玉树",la:"Crassula ovata",light:"充足光照",water:"耐旱，2-3周浇一次",temp:"10-30°C",fert:"春夏每月施一次肥",tips:["又名燕子掌","叶片圆润如玉","养护多年可开花"]},
+{id:418,cn:"石莲花",la:"Echeveria",light:"充足光照",water:"干透浇透，忌叶心积水",temp:"5-35°C",fert:"春秋每月施一次多肉肥",tips:["莲座状排列极具美感","叶插繁殖容易","夏季注意通风"]},
+{id:419,cn:"黑法师",la:"Aeonium arboreum",light:"充足光照，夏季遮阴",water:"夏季休眠控水，春秋正常浇水",temp:"10-30°C",fert:"生长期每月施一次稀薄肥",tips:["黑色莲座极具个性","夏季休眠叶片包拢","春秋生长迅速"]},
+{id:420,cn:"虹之玉",la:"Sedum rubrotinctum",light:"充足光照，光照好叶色红",water:"干透浇透",temp:"5-35°C",fert:"少施肥，春秋各一次",tips:["叶色随光照和温差变红","掉叶可扦插","果冻色最美"]},
+{id:421,cn:"熊童子",la:"Cotyledon tomentosa",light:"充足散射光",water:"干透浇透，忌叶面沾水",temp:"5-30°C",fert:"春秋每月施一次多肉肥",tips:["叶片毛茸茸如小熊掌","叶面绒毛忌沾水","夏季休眠需控水"]},
+{id:601,cn:"生石花",la:"Lithops",light:"充足光照",water:"极少浇水，蜕皮期断水",temp:"10-35°C",fert:"极少施肥",tips:["又名屁股花，拟态石头","一年只长1-2对新叶","蜕皮期不要浇水"]},
+{id:602,cn:"玉露",la:"Haworthia cooperi",light:"散射光，忌暴晒",water:"干透浇透，夏季控水",temp:"10-30°C",fert:"春秋每月施一次稀薄肥",tips:["叶片晶莹剔透如窗面","夏季休眠需遮阳通风","闷养可让窗面更透"]},
+{id:603,cn:"十二卷",la:"Haworthia fasciata",light:"散射光",water:"干透浇透",temp:"10-30°C",fert:"生长期每月施一次稀薄肥",tips:["白色条纹如斑马","生长缓慢","适合小盆种植"]}
+];
+
+/* SECTION: render */
+const grid=document.getElementById("plantGrid");
+const noResults=document.getElementById("noResults");
+const countEl=document.getElementById("plantCount");
+const overlay=document.getElementById("detailOverlay");
+const panel=document.getElementById("detailPanel");
+const searchInput=document.getElementById("searchInput");
+let currentIdx=-1;
+
+function renderGrid(list){
+  if(!list.length){grid.innerHTML="";noResults.style.display="block";countEl.textContent="共 0 种植物";return}
+  noResults.style.display="none";
+  countEl.textContent=`共 ${list.length} 种植物`;
+  grid.innerHTML=list.map((p,i)=>{
+    const globalIdx=plants.findIndex(x=>x.id===p.id);
+    return `<a class="card" onclick="openDetail(${globalIdx})" data-primary-action="${i===0?'true':'false'}">
+      <div class="card-img">
+        <img src="images/${p.id}.png" alt="${p.cn}" loading="lazy" onerror="this.style.display='none'">
+        <span class="id-badge">#${String(p.id).padStart(3,"0")}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-cn">${p.cn}</div>
+        <div class="card-la">${p.la}</div>
+      </div>
+    </a>`}).join("");
+}
+
+function filterPlants(){
+  const q=searchInput.value.trim().toLowerCase();
+  if(!q){renderGrid(plants);return}
+  const filtered=plants.filter(p=>{
+    const idStr=String(p.id).padStart(3,"0");
+    return idStr.includes(q)||p.cn.toLowerCase().includes(q)||p.la.toLowerCase().includes(q)||p.id===parseInt(q)
+  });
+  renderGrid(filtered);
+}
+
+/* SECTION: detail */
+function openDetail(idx){
+  currentIdx=idx;
+  const p=plants[idx];
+  const prev=idx>0?idx-1:-1;
+  const next=idx<plants.length-1?idx+1:-1;
+  panel.innerHTML=`
+    <button class="detail-close" onclick="closeDetail()" aria-label="关闭">✕</button>
+    <div class="detail-hero">
+      <div class="detail-img">
+        <img src="images/${p.id}.png" alt="${p.cn}" onerror="this.style.display='none'">
+      </div>
+      <div class="detail-meta">
+        <span class="detail-id">#${String(p.id).padStart(3,"0")}</span>
+        <div class="detail-cn">${p.cn}</div>
+        <div class="detail-la">${p.la}</div>
+      </div>
+    </div>
+    <div class="detail-care">
+      <div class="care-grid">
+        <div class="care-card light">
+          <div class="care-icon">☀️</div>
+          <h3>光照</h3>
+          <p>${p.light}</p>
+        </div>
+        <div class="care-card water">
+          <div class="care-icon">💧</div>
+          <h3>浇水</h3>
+          <p>${p.water}</p>
+        </div>
+        <div class="care-card temp">
+          <div class="care-icon">🌡️</div>
+          <h3>温度</h3>
+          <p>${p.temp}</p>
+        </div>
+        <div class="care-card fert">
+          <div class="care-icon">🌱</div>
+          <h3>施肥</h3>
+          <p>${p.fert}</p>
+        </div>
+      </div>
+    </div>
+    <div class="detail-tips">
+      <h3>💡 注意事项</h3>
+      <ul>${p.tips.map(t=>`<li>${t}</li>`).join("")}</ul>
+    </div>
+    <div class="detail-nav">
+      <button class="nav-btn ${prev>=0?"":"disabled"}" onclick="${prev>=0?`openDetail(${prev})`:""}">
+        ← ${prev>=0?plants[prev].cn:"没有更多了"}
+      </button>
+      <button class="nav-btn ${next>=0?"":"disabled"}" onclick="${next>=0?`openDetail(${next})`:""}">
+        ${next>=0?plants[next].cn:"没有更多了"} →
+      </button>
+    </div>`;
+  overlay.classList.add("active");
+  document.body.style.overflow="hidden";
+}
+
+function closeDetail(){
+  overlay.classList.remove("active");
+  document.body.style.overflow="";
+  currentIdx=-1;
+}
+
+function showGallery(){
+  closeDetail();
+  searchInput.value="";
+  filterPlants();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDetail()});
+
+/* SECTION: init */
+renderGrid(plants);
+</script>
+</body>
+</html>

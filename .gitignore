@@ -1,0 +1,21 @@
+# Build / maintenance scripts — not part of the deployed site
+analyze.js
+build_final.js
+build_site.js
+check_fields.js
+extract_old.js
+list_names.js
+sort.js
+sort_plants.py
+wire_sheet.js
+validate.js
+validate2.js
+add_plants.js
+fix_sort.js
+data1.js
+data2.js
+data3.js
+
+# Local working data
+_mapping.json
+_old_entries.json

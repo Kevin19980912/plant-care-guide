@@ -2,12 +2,12 @@
 
 /* Edit these to match your own shop details */
 const SHOP = {
-  brand: "Plant Care Guide",
-  brandIcon: "🌿",
+  brand: "SCA Plants",
+  brandIcon: "🌵",
   tagline: "Healthy · Rooted · Ready to Grow",
-  skuPrefix: "PCG350000",
-  email: "email@example.com",
-  instagram: "@YourShop",
+  skuPrefix: "SCA35000",
+  email: "everoasisplants@gmail.com",
+  instagram: "@SCAPlants",
   claimWindow: "48 hours"
 };
 
